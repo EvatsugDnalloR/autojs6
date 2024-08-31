@@ -25,15 +25,22 @@ V0.7修改内容如下：
 V0.8修改内容如下：
 1. 滑动起始位置不再固定为滑块中心，x与y轴添加随机偏移，并相应的修改滑动终点。
 
+V0.8.1修改内容如下：
+1. 简化浏览帖子逻辑，在页面显示为“小米社区”板块的前提下直接点击屏幕中央来随机打开一个帖子
+
 240705:
     添加解锁方式。
 240720:
     添加加入圈子活动和感恩季活动
+240901
+    取消调用感恩季
 */
 var unlockType = 1 // 根据需求修改，1为图案解锁，2为数字密码解锁，其它任意值默认为上滑解锁。
 var password = "000000" //解锁方式为数字密码时，将此处数字修改为自己的解锁密码。
 // 解锁方式为图案解锁时，将下列点位修改为自己的图案坐标。
-var gestureArray = [[284, 1479], [540, 1479], [540, 1732], [284, 1987], [540, 1987], [792, 1987]]
+// 以下坐标可供3200x1400澎湃OS设备进行参考：
+// 对应：                  1            2           5             3             4            9              6           7           8
+var gestureArray =  [[368, 1586], [730, 1592], [728, 1949], [1074, 1592], [358, 1940], [1077, 2301], [1078, 1950], [362, 2307], [718, 2304]]
 run();//计时
 curTime = new Date();
 date = curTime.getFullYear() + "-" + (curTime.getMonth() + 1) + "-" + curTime.getDate();
@@ -105,27 +112,13 @@ function killAPP(name){
 
 //浏览帖子
 function posts(n){
-    var regex = /((0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9]))|(0[0-9]|1[0-9]|2[0-3])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])|(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/;
-    var textView = className("android.widget.TextView").depth("18").textMatches(regex).clickable(true).findOne(8000); 
-    if (textView) { 
-        textView.click(); 
-        log("打开帖子");
-        sleep(13000);
-        log("浏览10s完成");
-        back();
-        return
-    }
-    else{
-        log("第"+n+"次重试")
-        swipe(device.width*4/5,device.height*3/4,device.width*2/5,device.height*1/4, 1500)
-        if(n > 3){
-            log("打开帖子失败")      
-            return;
-        }
-        if(n <= 3){
-            return posts(n+1);
-        }
-    }
+    click(device.width / 2, device.height / 2); // Click in the middle of the screen
+    log("点击中间屏幕");
+    sleep(15000); // Wait for 15 seconds
+    log("浏览10s完成");
+    back();
+    log("返回上一页");
+    return
 }
 
 //寻找坐标
@@ -594,13 +587,18 @@ function main(){
         tg.click();
         console.log("跳过了广告");
     }
+    log("等待20秒")
+    sleep(20000)    // wait for the app the load to enable gesture interaction
+    swipe(device.width * 4 / 5, device.height / 2, device.width / 5, device.height / 2, 1000); // Swipe from right to left
+    sleep(5000) // wait for the page "小米社区" to load
+    log("滑动以后等5秒")
     posts(1);
     className("android.widget.ImageView").desc("签到").findOne(10000).click();
     log("打开签到页面");
     percentage = logpercentage();
     start();
     join()
-    ganenji();
+    //ganenji();
     see();
     level();
     //fans();

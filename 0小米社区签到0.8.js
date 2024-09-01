@@ -131,9 +131,9 @@ function findCenter() {
     } 
     sleep(2000)
     var pictures2 = images.clip(captureScreen(),0,0,device.width,device.height);
-    images.save(pictures2,"/sdcard/Pictures/pictures2.png","png",100);
-    var img2 =images.read("/sdcard/Pictures/pictures2.png");
-    var wx = images.read("/sdcard/Pictures/hk.png");
+    images.save(pictures2,"/sdcard/Pictures/autojs/pictures2.png","png",100);
+    var img2 =images.read("/sdcard/Pictures/autojs/pictures2.png");
+    var wx = images.read("/sdcard/Pictures/autojs/hk.png");
     //截图并找图
     var p = findImage(img2, wx, {
         //region: [0, 50],
@@ -164,17 +164,17 @@ function qd() {
         log('请求截图失败');
         exit();
     }
-    var img2 =images.read("/sdcard/Pictures/pictures2.png");
+    var img2 =images.read("/sdcard/Pictures/autojs/pictures2.png");
     var pictures = images.clip(img2,rX,device.height*1/3+30,device.width*5/6-rX,pY-device.height*1/3-30);
-    images.save(pictures,"/sdcard/Pictures/pictures.png","png",100);
+    images.save(pictures,"/sdcard/Pictures/autojs/pictures.png","png",100);
     img2.recycle();
-    var img =images.read("/sdcard/Pictures/pictures.png");
+    var img =images.read("/sdcard/Pictures/autojs/pictures.png");
     var g = images.grayscale(img);
     var result =images.threshold(g, 110, 155);
-    images.save(result,"/sdcard/Pictures/result.png", "png", 100);
+    images.save(result,"/sdcard/Pictures/autojs/result.png", "png", 100);
     img.recycle();
-    var image = images.read("/sdcard/Pictures/result.png");
-    var path ="/sdcard/Pictures/test.txt";
+    var image = images.read("/sdcard/Pictures/autojs/result.png");
+    var path ="/sdcard/Pictures/autojs/test.txt";
     if (files.exists(path)) {
         files.write(path, "");
     }

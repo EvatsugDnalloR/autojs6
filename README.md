@@ -23,13 +23,12 @@ autojs有多个版本，各版本有差异。
 需将验证码界面截图，自行裁切滑块保存至/sdcard/Pictures/autojs/hk.png，
 
 
-/*
 
 原作者  by：PJ小宇    QQ：898811295
 
 修改    by：风中拾叶
 
-进一步修改  by: EvatsugDnalloR
+修改    by: EvatsugDnalloR
 
 
 
